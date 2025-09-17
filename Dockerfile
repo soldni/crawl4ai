@@ -1,7 +1,7 @@
 FROM python:3.12-slim-bookworm AS build
 
 # C4ai version
-ARG C4AI_VER=0.7.0-r1
+ARG C4AI_VER=0.7.4
 ENV C4AI_VERSION=$C4AI_VER
 LABEL c4ai.version=$C4AI_VER
 
@@ -43,7 +43,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libjpeg-dev \
     redis-server \
     supervisor \
-    && apt-get clean \ 
+    && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -68,7 +68,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libcairo2 \
     libasound2 \
     libatspi2.0-0 \
-    && apt-get clean \ 
+    && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update && apt-get dist-upgrade -y \
@@ -77,7 +77,7 @@ RUN apt-get update && apt-get dist-upgrade -y \
 RUN if [ "$ENABLE_GPU" = "true" ] && [ "$TARGETARCH" = "amd64" ] ; then \
     apt-get update && apt-get install -y --no-install-recommends \
     nvidia-cuda-toolkit \
-    && apt-get clean \ 
+    && apt-get clean \
     && rm -rf /var/lib/apt/lists/* ; \
 else \
     echo "Skipping NVIDIA CUDA Toolkit installation (unsupported platform or GPU disabled)"; \
@@ -87,13 +87,13 @@ RUN if [ "$TARGETARCH" = "arm64" ]; then \
     echo "🦾 Installing ARM-specific optimizations"; \
     apt-get update && apt-get install -y --no-install-recommends \
     libopenblas-dev \
-    && apt-get clean \ 
+    && apt-get clean \
     && rm -rf /var/lib/apt/lists/*; \
 elif [ "$TARGETARCH" = "amd64" ]; then \
     echo "🖥️ Installing AMD64-specific optimizations"; \
     apt-get update && apt-get install -y --no-install-recommends \
     libomp-dev \
-    && apt-get clean \ 
+    && apt-get clean \
     && rm -rf /var/lib/apt/lists/*; \
 else \
     echo "Skipping platform-specific optimizations (unsupported platform)"; \
@@ -194,7 +194,7 @@ EXPOSE 6379
 USER appuser
 
 # Set environment variables to ptoduction
-ENV PYTHON_ENV=production 
+ENV PYTHON_ENV=production
 
 # Start the application using supervisord
 CMD ["supervisord", "-c", "supervisord.conf"]

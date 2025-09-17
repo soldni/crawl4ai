@@ -1,6 +1,3 @@
-# Scripts folder (private tools)
-.scripts/
-
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -222,10 +219,6 @@ publish.sh
 combine.sh
 combined_output.txt
 .local
-.scripts
-tree.md
-tree.md
-.scripts
 .local
 .do
 /plans
