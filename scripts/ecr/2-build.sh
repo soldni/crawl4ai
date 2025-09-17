@@ -1,3 +1,3 @@
 #! /usr/bin/env bash
 
-docker build -t oe-base/crawl4ai .
+docker build --platform linux/amd64 -t oe-base/crawl4ai .
