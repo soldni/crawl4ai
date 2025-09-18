@@ -4,13 +4,12 @@ import logging
 from urllib.parse import urlparse
 from crawl4ai.docker_client import Crawl4aiDockerClient
 from crawl4ai import  CacheMode # Assuming you have crawl4ai installed
-from .ai2_policy import Ai2BotConfig
+from ai2_policy import Ai2BotConfig
 
 
 logger = logging.getLogger(__name__)
 
 class Crawl4aiApiClient(Crawl4aiDockerClient):
-
     def __init__(self, base_url: str, *args, **kwargs):
         super().__init__(base_url=base_url, *args, **kwargs)
         self._path_url = urlparse(base_url).path
@@ -42,7 +41,7 @@ async def main():
         # Example Non-streaming crawl
         print("--- Running Non-Streaming Crawl ---")
         results = await client.crawl(
-            ["https://httpbin.org/html"],
+            ["https://allenai.org"],
             browser_config=ai2_bot_config.get_browser_config(),
             crawler_config=ai2_bot_config.get_crawler_config(cache_mode=CacheMode.BYPASS)
         )
@@ -62,7 +61,7 @@ async def main():
         stream_config = ai2_bot_config.get_crawler_config(stream=True, cache_mode=CacheMode.BYPASS)
         try:
             async for result in await client.crawl(
-                ["https://httpbin.org/html", "https://httpbin.org/links/5/0"],
+                ["https://allenai.org", "https://soldaini.net"],
                 browser_config=ai2_bot_config.get_browser_config(),
                 crawler_config=stream_config
             ): # type: ignore

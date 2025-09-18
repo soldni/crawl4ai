@@ -14,8 +14,8 @@ class Ai2BotConfig:
     browser_mode: str = "dedicated"
     use_managed_browser: bool = False
     user_agent_mode: str = ""
-    user_agent_generator_config: dict = {}
-    extra_args: list = []
+    user_agent_generator_config: dict = field(default_factory=lambda: {})
+    extra_args: list = field(default_factory=lambda: [])
     enable_stealth: bool = False
     check_robots_txt: bool = True
     semaphore_count: int = 50 # no more than 50
