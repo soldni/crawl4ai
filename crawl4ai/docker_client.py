@@ -26,7 +26,7 @@ class RequestError(Crawl4aiClientError):
 
 class Crawl4aiDockerClient:
     """Client for interacting with Crawl4AI Docker server with token authentication."""
-    
+
     def __init__(
         self,
         base_url: str = "http://localhost:8000",
@@ -70,7 +70,7 @@ class Crawl4aiDockerClient:
             self.logger.error(f"Server unreachable: {str(e)}", tag="ERROR")
             raise ConnectionError(f"Cannot connect to server: {str(e)}")
 
-    def _prepare_request(self, urls: List[str], browser_config: Optional[BrowserConfig] = None, 
+    def _prepare_request(self, urls: List[str], browser_config: Optional[BrowserConfig] = None,
                        crawler_config: Optional[CrawlerRunConfig] = None) -> Dict[str, Any]:
         """Prepare request data from configs."""
         if self._token:
@@ -93,8 +93,8 @@ class Crawl4aiDockerClient:
         except httpx.RequestError as e:
             raise ConnectionError(f"Failed to connect: {str(e)}")
         except httpx.HTTPStatusError as e:
-            error_msg = (e.response.json().get("detail", str(e)) 
-                        if "application/json" in e.response.headers.get("content-type", "") 
+            error_msg = (e.response.json().get("detail", str(e))
+                        if "application/json" in e.response.headers.get("content-type", "")
                         else str(e))
             raise RequestError(f"Server error {e.response.status_code}: {error_msg}")
 
@@ -106,12 +106,12 @@ class Crawl4aiDockerClient:
     ) -> Union[CrawlResult, List[CrawlResult], AsyncGenerator[CrawlResult, None]]:
         """Execute a crawl operation."""
         await self._check_server()
-        
+
         data = self._prepare_request(urls, browser_config, crawler_config)
         is_streaming = crawler_config and crawler_config.stream
-        
+
         self.logger.info(f"Crawling {len(urls)} URLs {'(streaming)' if is_streaming else ''}", tag="CRAWL")
-        
+
         if is_streaming:
             async def stream_results() -> AsyncGenerator[CrawlResult, None]:
                 async with self._http_client.stream("POST", f"{self.base_url}/crawl/stream", json=data) as response:
@@ -128,12 +128,12 @@ class Crawl4aiDockerClient:
                             else:
                                 yield CrawlResult(**result)
             return stream_results()
-        
+
         response = await self._request("POST", "/crawl", json=data)
         result_data = response.json()
         if not result_data.get("success", False):
             raise RequestError(f"Crawl failed: {result_data.get('msg', 'Unknown error')}")
-        
+
         results = [CrawlResult(**r) for r in result_data.get("results", [])]
         self.logger.success(f"Crawl completed with {len(results)} results", tag="CRAWL")
         return results[0] if len(results) == 1 else results
