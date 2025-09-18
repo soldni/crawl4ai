@@ -42,10 +42,8 @@ async def main():
 
     # Point to the correct server port
     async with Crawl4aiApiClient(base_url=base_url, verbose=True) as client:
+        # slightly different authentication method; no email; just API key
         await client.authenticate(crawl4ai_api_key)
-
-        # If JWT is enabled on the server, authenticate first:
-        # await client.authenticate("user@example.com") # See Server Configuration section
 
         # Example Non-streaming crawl
         print("--- Running Non-Streaming Crawl ---")
