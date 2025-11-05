@@ -1,13 +1,3 @@
-# Scripts folder (private tools)
-.scripts/
-
-# Database files
-*.db
-
-# Environment files
-.env
-.env.local
-
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -185,7 +175,7 @@ Crawl4AI.egg-info/
 requirements0.txt
 a.txt
 
-*.sh
+
 .idea
 docs/examples/.chainlit/
 docs/examples/.chainlit/*
@@ -229,10 +219,6 @@ publish.sh
 combine.sh
 combined_output.txt
 .local
-.scripts
-tree.md
-tree.md
-.scripts
 .local
 .do
 /plans
@@ -266,19 +252,17 @@ continue_config.json
 .llm.env
 .private/
 
-.claude/
-
 CLAUDE_MONITOR.md
 CLAUDE.md
 
 tests/**/test_site
 tests/**/reports
 tests/**/benchmark_reports
-test_scripts/
+
 docs/**/data
 .codecat/
 
 docs/apps/linkdin/debug*/
 docs/apps/linkdin/samples/insights/*
 
-scripts/
+uv.lock
